@@ -4,8 +4,8 @@ export default function Favoritos() {
  
   return (
     <>
-      <h1>Fotos favoritas</h1>
-      <div className="galeria grid-columns-5 p-3">
+      <div id="favoritos">
+        <h1>Fotos favoritas</h1>
         <Galeria propFavoritos = {true}/>
       </div>
 

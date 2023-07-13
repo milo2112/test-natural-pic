@@ -20,7 +20,7 @@ export default function Galeria({ propFavoritos = false }) {
           onClick={() => setFavorito(id)}
           key={id}
           className="foto" 
-          style={{ backgroundImage: `url(${src.tiny})` }}>
+          style={{ backgroundImage: `url(${src.original})` }}>
           <Heart filled={liked} />
           <p> {alt} </p>
         </div>
