@@ -1,41 +1,31 @@
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-
-import Home from "./views/Home";
-import Favoritos from "./views/Favoritos";
-
-import GlobalContext from "./context/GlobalContext";
 import { useEffect, useState } from "react"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar"
+import Home from "./views/Home"
+import Favoritos from "./views/Favoritos";
+import GlobalContext from "./context/GlobalContext";
 
-function App() {
-
-  const endpoint = "http://127.0.0.1:5173/fotos.json"
+export default function App() {
+  // const endpoint = 'http://127.0.0.1:5173/fotos.json'
+  const endpoint = '/fotos.json'
   const [photos, setPhotos] = useState([])
   
+  const getData = async (url) => {
+    const resp = await fetch(url)
+    const data = await resp.json()
+
+    setPhotos(data.photos)
+  }
+
   useEffect(() => {
-    const getPhotos = async() => {
-      const resp = await fetch(endpoint)
-      let { photos } = await resp.json()
-      
-     
-      /*Se genera nuevo arreglo solo con atributos a utilizar*/
-      const photosTemp = photos.map((photo) => ({
-        id: photo.id,
-        src: photo.src.tiny,
-        desc: photo.alt,
-        favorito: false  
-        
-      }));
-      // console.log(`photosTemp: ${photosTemp}`)
-      setPhotos(photosTemp)
-    }
-    getPhotos()
+    getData(endpoint)
   }, [])
+
+  const sharedGlobal = { photos, setPhotos }
 
   return (
       <div className="App">
-        <GlobalContext.Provider value={{ photos, setPhotos}}>
+        <GlobalContext.Provider value={sharedGlobal}>
           <BrowserRouter>
             <Navbar />
             <Routes>
@@ -48,4 +38,4 @@ function App() {
   )
 }
 
-export default App
+
